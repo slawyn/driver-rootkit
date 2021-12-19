@@ -1,0 +1,86 @@
+;
+; Rootkit.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Sample ; TODO: edit Class
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171} ; TODO: edit ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=Rootkit.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+
+[DestinationDirs]
+DefaultDestDir = 12
+Rootkit_Device_CoInstaller_CopyFiles = 11
+
+; ================= Class section =====================
+
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+Rootkit.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%Rootkit.DeviceDesc%=Rootkit_Device, Root\Rootkit ; TODO: edit hw-id
+
+[Rootkit_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+Rootkit.sys
+
+;-------------- Service installation
+[Rootkit_Device.NT.Services]
+AddService = Rootkit,%SPSVCINST_ASSOCSERVICE%, Rootkit_Service_Inst
+
+; -------------- Rootkit driver install sections
+[Rootkit_Service_Inst]
+DisplayName    = %Rootkit.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\Rootkit.sys
+
+;
+;--- Rootkit_Device Coinstaller installation ------
+;
+
+[Rootkit_Device.NT.CoInstallers]
+AddReg=Rootkit_Device_CoInstaller_AddReg
+CopyFiles=Rootkit_Device_CoInstaller_CopyFiles
+
+[Rootkit_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[Rootkit_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[Rootkit_Device.NT.Wdf]
+KmdfService =  Rootkit, Rootkit_wdfsect
+[Rootkit_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="AlexManufacturer" ;TODO: Replace with your manufacturer name
+ClassName="AlexDriverClassname" ; TODO: edit ClassName
+DiskName = "Rootkit Installation Disk"
+Rootkit.DeviceDesc = "Rootkit Device"
+Rootkit.SVCDESC = "Rootkit Service"

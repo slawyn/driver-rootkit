@@ -1,0 +1,23 @@
+﻿  Building 'Rootkit' with toolset 'WindowsKernelModeDriver10.0' and the 'Universal' target platform.
+  Stamping x64\Debug\Rootkit.inf
+  Stamping [Version] section with DriverVer=07/04/2021,20.53.54.542
+  driver.c
+  Rootkit.vcxproj -> C:\Users\Unixt\OneDrive\Desktop\projects\Rootkit\x64\Debug\Rootkit.sys
+  Done Adding Additional Store
+  Successfully signed: C:\Users\Unixt\OneDrive\Desktop\projects\Rootkit\x64\Debug\Rootkit.sys
+  
+  Driver is a Universal Driver.
+  .........................
+  Signability test complete.
+  
+  Errors:
+  None
+  
+  Warnings:
+  None
+  
+  Catalog generation complete.
+  C:\Users\Unixt\OneDrive\Desktop\projects\Rootkit\x64\Debug\Rootkit\rootkit.cat
+  Done Adding Additional Store
+  Successfully signed: C:\Users\Unixt\OneDrive\Desktop\projects\Rootkit\x64\Debug\Rootkit\rootkit.cat
+  
